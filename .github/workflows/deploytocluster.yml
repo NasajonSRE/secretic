@@ -1,0 +1,126 @@
+name: 'Build SRE.Workers'
+
+on:
+  push:
+    branches: 
+      - production
+
+env:
+  DOCKER_ID: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PW: ${{ secrets.DOCKER_PASSWORD }}
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
+
+jobs:
+  build:
+    name: Pipeline
+    runs-on: ubuntu-latest
+    steps:     
+      - uses: actions/checkout@v3
+
+      - name: Sets env vars for environment
+        run: |
+          echo "APP_NAME=secretic" >> $GITHUB_ENV
+          echo "APP_NAME_PRETTY=SRE.Secretic" >> $GITHUB_ENV
+          echo "CLUSTER=nasajon-sre" >> $GITHUB_ENV
+          echo "CHART_FOLDER=charts/nasajon-sre" >> $GITHUB_ENV
+          echo "VALUES_FILE=values.yaml" >> $GITHUB_ENV
+          echo "HELM_REPO=git@github.com:NasajonSRE/helm.git" >> $GITHUB_ENV
+          
+      - name: Install SSH key
+        run: |
+          mkdir ~/.ssh/
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          touch ~/.ssh/known_hosts
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@v1.1
+        with:
+          timeZone: '-3'
+          format: 'YYMM'
+
+      # Install yq
+      - name: Install yq 
+        run: |
+          wget https://github.com/mikefarah/yq/releases/download/v4.12.0/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+          yq --version
+
+      - name: Set Docker Image Tag
+        env:
+          TIME: "${{ steps.time.outputs.time }}"
+        run: |
+          BUILDNUMBER=$(curl -s -u "$DOCKER_ID:$DOCKER_PW" -X GET https://$DOCKER_REGISTRY/v2/sre-api/tags/list | jq --arg base "v1.$TIME" -r '.tags | map(select(startswith($base))) | .[] | split(".") | .[2]' | sort --human-numeric-sort | tail -n1)
+          [[ $BUILDNUMBER != "1" ]] && BUILDNUMBER=$(($BUILDNUMBER+1)) || BUILDNUMBER=1
+          DOCKERTAG="v1.$TIME.$BUILDNUMBER"
+          echo "New Image TAG: $DOCKERTAG"
+          echo "GITHUB_DOCKERTAG=$(echo $DOCKERTAG)" >> $GITHUB_ENV
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.DOCKER_CONTAINER_REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build, push to Docker Hub Najason
+        run: |
+          echo 'Building the Docker image...'
+          docker build --no-cache --rm -t $DOCKER_REGISTRY/$APP_NAME:$GITHUB_DOCKERTAG .
+          echo 'Pushing the Docker image...'
+          docker push $DOCKER_REGISTRY/$APP_NAME:$GITHUB_DOCKERTAG 
+
+      - name: Render Values in Helm git repo 
+        env:
+          TIME: "${{ steps.time.outputs.time }}"
+        run: | 
+          echo Create temporary folder to clone the repo into...
+          TEMP_FOLDER="$(mktemp -d)" 
+          echo Clone the repository...
+          git clone -b main "git@github.com:NasajonSRE/helm.git" ${TEMP_FOLDER}
+          cp ci/$VALUES_FILE ${TEMP_FOLDER}/$CHART_FOLDER/$APP_NAME/$VALUES_FILE
+          cd ${TEMP_FOLDER}/$CHART_FOLDER/$APP_NAME
+          echo "Update Helm values with new image tag"
+          sed -i "s/{{ TAG }}/$GITHUB_DOCKERTAG/g" $VALUES_FILE
+          echo "Helm values rendered in $CHART_FOLDER/$APP_NAME/$VALUES_FILE" 
+          cd ${TEMP_FOLDER}/
+          git config user.email "deployuser@nasajon.com.br" 
+          git config user.name "Github Deploy User" 
+          git add .  
+          git commit -m "Rendered Helm chart values for $APP_NAME_PRETTY - Version [$GITHUB_DOCKERTAG]" || true
+          git push -u origin main || true
+
+  container-render-argo:
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+          shell: bash
+    container:
+      image: hub.nasajon.com.br/sre-utils:0.5
+      credentials:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    steps:
+
+      - name: Sets env vars for environment
+        run: |
+          echo "APP_NAME=secretic" >> $GITHUB_ENV
+          echo "CLUSTER=nasajon-sre" >> $GITHUB_ENV
+          echo "ARGO_PROJECT=sre" >> $GITHUB_ENV
+          echo "CHART_FOLDER=charts/nasajon-sre" >> $GITHUB_ENV
+
+      - name: Render ArgoCD application
+        run: | 
+          cd /workspace
+          cp argo-prod.yaml.j2 $APP_NAME-argo.yaml
+          echo "Create Client ArgoCD application..."
+          sed -i "s#./charts/{{ APP }}#./$CHART_FOLDER/${APP_NAME}#g" /workspace/$APP_NAME-argo.yaml
+          sed -i "s/{{ CLUSTER }}/$CLUSTER/g" /workspace/$APP_NAME-argo.yaml
+          sed -i "s/{{ NAMESPACE }}/$APP_NAME/g" /workspace/$APP_NAME-argo.yaml
+          sed -i "s/{{ APP }}/$APP_NAME/g" /workspace/$APP_NAME-argo.yaml
+          sed -i "s/default/$ARGO_PROJECT/g" /workspace/$APP_NAME-argo.yaml
+          cat $APP_NAME-argo.yaml
+          kubectl --kubeconfig=./kubeconfig-sre apply -f $APP_NAME-argo.yaml
+          echo "Job Finished."
