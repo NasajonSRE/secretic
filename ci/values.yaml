@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: hub.nasajon.com.br/secretic
@@ -24,6 +24,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
+  containerPort: 80
   targetPort: 80
 
 ingress:
