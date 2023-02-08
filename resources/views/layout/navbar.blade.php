@@ -6,7 +6,9 @@
     <div class="container justify-content-center">
         <div class="col-lg-6">
             <a class="ml-0 navbar-brand text-primary" href="{{ route('home') }}">
-                <img src="{{ asset('assets/logo_full.png') }}" alt="logotipo Nasajon. Fundo transparente com letras azuis escrito Nasajon">
+                <img src="{{ asset('assets/logo_full.png') }}" 
+                     alt="logotipo Nasajon. Fundo transparente com letras azuis escrito Nasajon"
+                     style="widht: 45%">
             </a>
             <span class="navbar-text d-none d-md-inline">Notas secretas que irão se auto-destruir depois de lidas.</span>
         </div>
