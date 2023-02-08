@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row mt-2 mb-4">
             <div class="col-md-8 mx-auto">
-                <h3 class="mt-5">Note contents</h3>
+                <h3 class="mt-5">Conteúdo da nota</h3>
 
                 <div class="alert alert-warning mt-3" role="alert">
                     Essa nota foi destruida. Se vocÊ quer mantê-la, copie antes antes de fechar essa janela.

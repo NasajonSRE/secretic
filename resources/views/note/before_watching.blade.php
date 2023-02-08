@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Read and destroy?')
+@section('title', 'Ler e destruir?')
 
 @php
     use App\Models\Note;
@@ -15,11 +15,11 @@
 
                 @if ($note === null)
                     <div class="alert alert-danger mt-5" role="alert">
-                        Secret note does not exist, has already been read, or has expired
+                        Nota secreta não existe, ela já foi lida, ou expirou.
                     </div>
                 @else
-                    <h3 class="mt-5">Read and destroy?</h3>
-                    <p>You're about to read and destroy the note with id <strong>{{ $note->slug }}</strong>.</p>
+                    <h3 class="mt-5">Ler e destruir?</h3>
+                    <p>Você irá ler e destruir a nota com o id <strong>{{ $note->slug }}</strong>.</p>
                     <form action="{{ route('note.decrypt', $note->slug) }}" method="POST">
                         @csrf
                         @if ($note->password)
@@ -28,7 +28,7 @@
                                 <input type="password"
                                        class="form-control"
                                        name="decrypt_password"
-                                       placeholder="Enter password for the note"
+                                       placeholder="Entre com a senha para a nota"
                                        required>
                             </div>
 
@@ -41,9 +41,9 @@
                         @endif
                         <input class="btn btn-primary"
                                type="submit"
-                               value="Yes, show me the note"
+                               value="Sim, mostre-me a nota"
                                onclick="disableButton(this)">
-                        <button type="button" class="btn btn-outline-secondary" disabled>No, not now</button>
+                        <button type="button" class="btn btn-outline-secondary" disabled>Não, não agora</button>
 
                     </form>
                 @endif
