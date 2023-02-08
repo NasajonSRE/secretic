@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Secret note read and destroyed!')
+@section('title', 'Nota secreta lida e destruida!')
 
 @section('content')
 
@@ -10,7 +10,7 @@
                 <h3 class="mt-5">Note contents</h3>
 
                 <div class="alert alert-warning mt-3" role="alert">
-                    This note was destroyed. If you need to keep it, copy it before closing this window.
+                    Essa nota foi destruida. Se vocÊ quer mantê-la, copie antes antes de fechar essa janela.
                 </div>
 
                 <div class="mb-3">
@@ -20,7 +20,7 @@
                 <div class="mb-3">
                     <div class="d-grid">
                         <button id="copy-button" type="button" class="btn btn-outline-secondary">
-                            Copy note
+                            Copiar nota
                         </button>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 navigator.clipboard.writeText(note_text.value);
 
                 note_text.classList.add("is-valid");
-                copy_btn.innerText = 'Copied!';
+                copy_btn.innerText = 'Copiado!';
             });
         });
     </script>

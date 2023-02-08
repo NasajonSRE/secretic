@@ -1,16 +1,15 @@
 @extends('layout.app')
 
-@section('title', 'Show secret note and destroy')
+@section('title', 'Mostrar nota secreta e destruir')
 
 @section('content')
 
     <div class="container">
         <div class="row mt-5">
             <div class="col-md-7 mx-auto">
-                <h1 class="mb-4">Secret note successfully created!</h1>
-
+                <h1 class="mb-4">Nota secreta criada com sucesso!</h1>
                 <div class="form-text mb-3">
-                    Here is a link to the note:
+                    Aqui está o link para a nota:
                 </div>
                 <div class="input-group mb-3">
                     <input type="hidden" id="secret-note-url" value="{{ $note_url }}">
@@ -18,16 +17,15 @@
                            class="form-control"
                            id="copy-input"
                            value="{{ $note_url }}"
-                           placeholder="Note URL"
-                           aria-label="Note URL"
+                           placeholder="Nota URL"
+                           aria-label="Nota URL"
                            aria-describedby="copy-button"
                            disabled>
                     <button class="btn btn-outline-secondary"
                             type="button"
                             id="copy-button"
-                            title="Copy to Clipboard">
-                        Copy note to clipboard
-                    </button>
+                            title="Copie para area de transferencia">
+                        Copie a nota para área de transferência                    </button>
                 </div>
 
             </div>

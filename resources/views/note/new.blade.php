@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Create secret note that will self-destruct after being read')
+@section('title', 'Crie uma nota secreta que irá se auto-destruir depois de lida')
 
 @section('content')
 
@@ -12,11 +12,11 @@
             <div class="row mt-4 mt-lg-5">
                 <div class="col-md-8 mx-auto">
 
-                    <label for="text" class="lh-sm fw-semibold form-label h2 mb-4">New secret note</label>
+                    <label for="text" class="lh-sm fw-semibold form-label h2 mb-4">Nova nota secreta</label>
                     <textarea class="form-control"
                               name="text"
                               id="text"
-                              placeholder="Write your note here..."
+                              placeholder="Digite sua nota aqui..."
                               style="height: 160px"></textarea>
 
                 </div>
@@ -28,7 +28,7 @@
                 <div class="col-8">
                     <div class="d-grid">
                         <button id="create_note_form__submit_btn" type="submit" class="btn btn-lg btn-primary">
-                            Create note
+                            Criar nota
                         </button>
                     </div>
                 </div>

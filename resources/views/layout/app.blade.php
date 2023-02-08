@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'Create secret note') &mdash; Secretic</title>
+    <title>@yield('title', 'Crie uma nota secreta') &mdash; Secretic</title>
     <meta name="description" content="Share a confidential note via a web link that will self-destruct after it is read by your intended recipient.">
 
     <!-- Favicons -->
@@ -33,8 +33,6 @@
 @include('layout.navbar')
 
 @yield('content')
-
-@include('layout.footer')
 @include('layout.js_scripts')
 
 @stack('scripts')

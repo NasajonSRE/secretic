@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Create secret notes that will self-destruct after being read')
+@section('title', 'Crie notas secretas que irão se auto-destruir depois de lidas')
 
 @section('content')
 
@@ -13,13 +13,13 @@
                 <div class="col-md-6 mx-auto">
 
                     <div class="text-center">
-                        <label for="text" class="lh-sm fw-semibold form-label h1 mb-4">New secret note</label>
+                        <label for="text" class="lh-sm fw-semibold form-label h1 mb-4">Nova nota secreta</label>
                     </div>
 
                     <textarea class="form-control"
                               name="text"
                               id="text"
-                              placeholder="Write your note here..."
+                              placeholder="digite sua nota aqui..."
                               style="height: 160px"></textarea>
 
                 </div>
@@ -28,7 +28,7 @@
             <div class="row mt-2 mb-4">
                 <div class="col-md-6 mx-auto">
                     <div id="textareaHelp" class="form-text">
-                        You can create a secret note with <a href="{{ route('page.note.new') }}">additional settings</a>.
+                        Você pode criar uma nota secreta com <a href="{{ route('page.note.new') }}">configurações adicionais</a>.
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <div class="col-6">
                     <div class="d-grid">
                         <button id="create_note_form__submit_btn" type="submit" class="btn btn-lg btn-primary">
-                            Create note
+                            Crie uma nota
                         </button>
                     </div>
                 </div>
@@ -46,10 +46,6 @@
         </form>
 
     </div>
-
-    @include('home.cases')
-    @include('home.why')
-    @include('home.faq')
 
 @endsection
 

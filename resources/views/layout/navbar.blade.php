@@ -6,19 +6,19 @@
     <div class="container justify-content-center">
         <div class="col-lg-6">
             <a class="ml-0 navbar-brand text-primary" href="{{ route('home') }}">
-                Secretic
+                <img src="{{ asset('assets/logo_full.png') }}" alt="logotipo Nasajon. Fundo transparente com letras azuis escrito Nasajon">
             </a>
-            <span class="navbar-text d-none d-md-inline">Secret notes that will self-destruct after being read.</span>
+            <span class="navbar-text d-none d-md-inline">Notas secretas que irão se auto-destruir depois de lidas.</span>
         </div>
         <div class="col-3 d-none d-md-block">
             <ul class="nav float-end">
 {{--                <li class="nav-item text-end">--}}
 {{--                    <a class="nav-link text-dark" href="{{ route('page.note.new') }}">--}}
-{{--                        New note--}}
+{{--                        Nova nota--}}
 {{--                    </a>--}}
 {{--                </li>--}}
                 <li class="nav-item dropdown text-end">
-                    <a href="{{ route('page.note.new') }}" class="btn btn-outline-success" type="submit">New note</a>
+                    <a href="{{ route('page.note.new') }}" class="btn btn-outline-success" type="submit">Nova nota</a>
                 </li>
             </ul>
         </div>

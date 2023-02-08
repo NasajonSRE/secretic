@@ -3,13 +3,13 @@
         <div class="form-floating">
             <select class="form-select" name="expiration_date" id="expiration_date"
                     aria-label="select example">
-                <option selected>Never</option>
-                <option value="1_hour">1 hour</option>
-                <option value="1_day">1 day</option>
-                <option value="1_week">1 week</option>
-                <option value="1_month">1 month</option>
+                <option selected>Nunca</option>
+                <option value="1_hour">1 hora</option>
+                <option value="1_day">1 dia</option>
+                <option value="1_week">1 semana</option>
+                <option value="1_month">1 mês</option>
             </select>
-            <label for="expiration_date">Expiration date</label>
+            <label for="expiration_date">Data de expiração</label>
         </div>
     </div>
     <div class="col-4">
@@ -19,7 +19,7 @@
                    id="password_input"
                    type="password"
                    placeholder="Password">
-            <label for="password_input">Password (optional)</label>
+            <label for="password_input">Senha (opcional)</label>
 
             @error('encrypt_password')
             <div class="py-2 text-red-500">

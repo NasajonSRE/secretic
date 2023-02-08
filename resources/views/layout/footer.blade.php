@@ -9,7 +9,7 @@
                     </a>
                     {{-- <small class="text-secondary">v{{ config('app.version') }}</small> --}}
                     <div class="text-secondary mb-4">
-                        <small>Secret notes that will self-destruct after being read.</small>
+                        <small>Notas secretas que irão se auto-destruir depois de lidas</small>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -29,19 +29,7 @@
 
                         <li class="nav-item">
                             <a href="{{ route('page.note.new') }}" class="nav-link link-secondary px-2">
-                                New note
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('home').'#about' }}" class="nav-link link-secondary px-2">
-                                About
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="https://github.com/gomzyakov/secretic" class="nav-link link-secondary px-2" target="_blank">
-                                <i class="bi bi-github"></i> GitHub
+                                Nova nota
                             </a>
                         </li>
 
