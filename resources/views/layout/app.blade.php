@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>@yield('title', 'Crie uma nota secreta') &mdash; Secretic</title>
-    <meta name="description" content="Share a confidential note via a web link that will self-destruct after it is read by your intended recipient.">
-
+    <meta name="description" content="Compartilhe uma nota confidêncial via web link que irá se auto-destruir após ser lida pelo seu destinatário.">
+    
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="{{ asset('assets/logo.png') }}" sizes="180x180">
     <link rel="icon" href="{{ asset('assets/logo.png') }}" sizes="32x32" type="image/png">
