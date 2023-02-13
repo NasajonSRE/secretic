@@ -10,7 +10,7 @@
                 <h3 class="mt-5">Conteúdo da nota</h3>
 
                 <div class="alert alert-warning mt-3" role="alert">
-                    Essa nota foi destruida. Se vocÊ quer mantê-la, copie antes antes de fechar essa janela.
+                    Essa nota foi destruida. Se você quer mantê-la, copie antes antes de fechar essa janela.
                 </div>
 
                 <div class="mb-3">
