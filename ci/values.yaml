@@ -19,12 +19,12 @@ podAnnotations: {}
 
 podSecurityContext: {}
 
-securityContext: 
-  runAsUser: 1000
-  runAsGroup: 1000
-  readOnlyRootFilesystem: true
-  allowPrivilegeEscalation: false
-  privileged: false
+securityContext: {}
+  # runAsUser: 1000
+  # runAsGroup: 1000
+  # readOnlyRootFilesystem: true
+  # allowPrivilegeEscalation: false
+  # privileged: false
 
 service:
   type: ClusterIP

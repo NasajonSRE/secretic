@@ -26,7 +26,6 @@ RUN mv composer.phar /usr/local/bin/composer && \
 
 RUN composer install && \
     chmod -R 777 storage bootstrap/cache && \ 
-    chmod -R 1777 /temp
     php artisan key:generate
 
 CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=80" ]
