@@ -20,8 +20,8 @@ podAnnotations: {}
 podSecurityContext: {}
 
 securityContext: 
-  runAsUser: nonroot
-  runAsGroup: nonroot
+  runAsUser: 1000
+  runAsGroup: 1000
   readOnlyRootFilesystem: true
   allowPrivilegeEscalation: false
   privileged: false
