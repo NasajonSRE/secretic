@@ -3,9 +3,6 @@ FROM ubuntu:22.04
 WORKDIR /app
 COPY . /app
 # RUN mv composer.phar /usr/local/bin/composer
-ARG USERNAME=nonroot
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
@@ -31,12 +28,6 @@ RUN composer install && \
     chmod -R 777 storage bootstrap/cache && \ 
     php artisan key:generate
 
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-
-USER nonroot
-
 CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=80" ]
-
 
 # RUN composer
