@@ -51,7 +51,7 @@ jobs:
         env:
           TIME: "${{ steps.time.outputs.time }}"
         run: |
-          BUILDNUMBER=$(curl -s -u "$DOCKER_ID:$DOCKER_PW" -X GET https://$DOCKER_REGISTRY/v2/sre-api/tags/list | jq --arg base "v1.$TIME" -r '.tags | map(select(startswith($base))) | .[] | split(".") | .[2]' | sort --human-numeric-sort | tail -n1)
+          BUILDNUMBER=$(curl -s -u "$DOCKER_ID:$DOCKER_PW" -X GET https://$DOCKER_REGISTRY/v2/secretic/tags/list | jq --arg base "v1.$TIME" -r '.tags | map(select(startswith($base))) | .[] | split(".") | .[2]' | sort --human-numeric-sort | tail -n1)
           [[ $BUILDNUMBER != "1" ]] && BUILDNUMBER=$(($BUILDNUMBER+1)) || BUILDNUMBER=1
           DOCKERTAG="v1.$TIME.$BUILDNUMBER"
           echo "New Image TAG: $DOCKERTAG"
