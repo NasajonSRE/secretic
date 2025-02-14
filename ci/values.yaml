@@ -1,12 +1,12 @@
 replicaCount: 1
 
 image:
-  repository: hub.nasajon.com.br/secretic
+  repository: hub.nasajon.in/tools/secretic
   pullPolicy: Always
   tag: "{{ TAG }}"
 
 imagePullSecrets: 
-  - name: hub
+  - name: hub-in
 nameOverride: ""
 fullnameOverride: ""
 
