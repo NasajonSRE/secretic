@@ -1,33 +1,39 @@
-FROM ubuntu:22.04
-
-WORKDIR /app
-COPY . /app
-# RUN mv composer.phar /usr/local/bin/composer
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-RUN apt update
+WORKDIR /app
 
-RUN apt install software-properties-common -y && \
-    apt install git -y
-
-RUN apt install zip unzip php8.1-zip -y
-
-RUN apt install php8.1-common php8.1-cli php8.1-mysql \
-    php8.1-xml php8.1-curl php8.1-bcmath php8.1-mbstring -y
+RUN apt-get update && \
+    apt-get install -y \
+        software-properties-common \
+        git \
+        zip \
+        unzip \
+        curl \
+        php-cli \
+        php-common \
+        php-mysql \
+        php-xml \
+        php-curl \
+        php-bcmath \
+        php-mbstring \
+        php-zip && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php composer-setup.php && \
-    php -r "unlink('composer-setup.php');"
+    php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    rm composer-setup.php
 
-RUN mv composer.phar /usr/local/bin/composer && \
-    mv .env.example .env
+COPY . /app
 
-RUN composer install && \
-    chmod -R 777 storage bootstrap/cache && \ 
+RUN cp .env.example .env && \
+    composer install --no-interaction --prefer-dist --optimize-autoloader && \
+    chmod -R 777 storage bootstrap/cache && \
     php artisan key:generate
 
-CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=80" ]
+EXPOSE 80
 
-# RUN composer
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=80"]
