@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-bcmath": "*",
         "doctrine/dbal": "^3.5",
         "filament/filament": "^2.16",
@@ -90,7 +90,10 @@
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "platform-check": false
+        "platform-check": false,
+        "platform": {
+            "php": "8.3.36"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
